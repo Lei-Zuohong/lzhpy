@@ -1,0 +1,13 @@
+[project]
+name="lzhnet"
+version="1.0.0"
+authors=[
+    { name="zhlei", email="leizuoho@mail.ustc.edu.cn" }
+]
+dependencies=[
+    "paramiko",
+    "selenium",
+    "lzhlog"
+]
+description="Function about network."
+requires-python=">=3.0"

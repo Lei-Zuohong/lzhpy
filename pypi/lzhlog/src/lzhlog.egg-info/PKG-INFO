@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: lzhlog
+Version: 1.0.0
+Summary: Advance use of logging
+Author-email: zhlei <leizuoho@mail.ustc.edu.cn>
+Requires-Python: >=3.0
+Requires-Dist: colorlog

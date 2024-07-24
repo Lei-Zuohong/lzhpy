@@ -1,0 +1,11 @@
+[project]
+name="lzhlog"
+version="1.0.0"
+authors=[
+    { name="zhlei", email="leizuoho@mail.ustc.edu.cn" }
+]
+dependencies=[
+    "colorlog"
+]
+description="Advance use of logging"
+requires-python=">=3.0"

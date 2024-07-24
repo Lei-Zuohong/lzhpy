@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: lzhfile
+Version: 1.0.0
+Author-email: zhlei <leizuoho@mail.ustc.edu.cn>
+Requires-Python: >=3.0
+Requires-Dist: numpy
+Requires-Dist: pillow
+Requires-Dist: pandas
+Requires-Dist: xlwings
+Requires-Dist: configparser

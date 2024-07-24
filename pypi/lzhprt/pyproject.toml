@@ -1,0 +1,11 @@
+[project]
+name="lzhprt"
+version="1.0.0"
+authors=[
+    { name="zhlei", email="leizuoho@mail.ustc.edu.cn" }
+]
+dependencies=[
+    "numpy"
+]
+description="A simple package for printing data in a pretty way"
+requires-python=">=3.0"

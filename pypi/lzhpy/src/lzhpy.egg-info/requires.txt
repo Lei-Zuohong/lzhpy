@@ -1,0 +1,6 @@
+lzhfile
+lzhlog
+lzhnet
+lzhprt
+lzhsta
+lzhsys

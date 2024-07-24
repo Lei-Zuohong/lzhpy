@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: lzhpy
+Version: 1.0.0
+Author-email: zhlei <leizuoho@mail.ustc.edu.cn>
+Requires-Python: >=3.0
+Requires-Dist: lzhfile
+Requires-Dist: lzhlog
+Requires-Dist: lzhnet
+Requires-Dist: lzhprt
+Requires-Dist: lzhsta
+Requires-Dist: lzhsys

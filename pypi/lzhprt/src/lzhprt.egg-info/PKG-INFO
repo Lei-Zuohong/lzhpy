@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: lzhprt
+Version: 1.0.0
+Summary: A simple package for printing data in a pretty way
+Author-email: zhlei <leizuoho@mail.ustc.edu.cn>
+Requires-Python: >=3.0
+Requires-Dist: numpy

@@ -1,0 +1,11 @@
+[project]
+name="lzhsys"
+version="1.0.0"
+authors=[
+    { name="zhlei", email="leizuoho@mail.ustc.edu.cn" }
+]
+dependencies=[
+    "lzhlog"
+]
+description=""
+requires-python=">=3.0"
