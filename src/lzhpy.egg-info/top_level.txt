@@ -1,5 +1,6 @@
 lzhfile
 lzhlog
+lzhmath
 lzhnet
 lzhprt
 lzhsta

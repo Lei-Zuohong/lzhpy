@@ -1,10 +1,15 @@
 Metadata-Version: 2.1
-Name: lzhfile
-Version: 1.0.0
+Name: lzhpy
+Version: 0.0.1
 Author-email: zhlei <leizuoho@mail.ustc.edu.cn>
 Requires-Python: >=3.0
+Requires-Dist: scipy
 Requires-Dist: numpy
+Requires-Dist: lmfit
 Requires-Dist: pillow
 Requires-Dist: pandas
 Requires-Dist: xlwings
+Requires-Dist: colorlog
+Requires-Dist: paramiko
+Requires-Dist: selenium
 Requires-Dist: configparser

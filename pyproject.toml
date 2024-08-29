@@ -1,14 +1,19 @@
 [project]
-name="lzhfile"
-version="1.0.0"
+name="lzhpy"
+version="0.0.1"
 authors=[
     { name="zhlei", email="leizuoho@mail.ustc.edu.cn" }
 ]
 dependencies=[
+    "scipy",
     "numpy",
+    "lmfit",
     "pillow",
     "pandas",
     "xlwings",
+    "colorlog",
+    "paramiko",
+    "selenium",
     "configparser"
 ]
 description=""
