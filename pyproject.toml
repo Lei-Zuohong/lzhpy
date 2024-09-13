@@ -1,6 +1,6 @@
 [project]
 name="lzhpy"
-version="0.0.1"
+version="1.0.1"
 authors=[
     { name="zhlei", email="leizuoho@mail.ustc.edu.cn" }
 ]
