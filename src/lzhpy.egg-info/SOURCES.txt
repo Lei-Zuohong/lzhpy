@@ -13,6 +13,7 @@ src/lzhfile/types/pkl.py
 src/lzhfile/types/suffix.py
 src/lzhfile/types/txt.py
 src/lzhlog/__init__.py
+src/lzhlog/ftimer.py
 src/lzhnet/__init__.py
 src/lzhnet/chrome.py
 src/lzhnet/mail.py

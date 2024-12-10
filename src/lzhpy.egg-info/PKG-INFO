@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: lzhpy
-Version: 1.0.1
+Version: 1.0.2
 Author-email: zhlei <leizuoho@mail.ustc.edu.cn>
 Requires-Python: >=3.0
 Requires-Dist: scipy
