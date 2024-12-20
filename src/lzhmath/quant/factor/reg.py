@@ -32,14 +32,14 @@ def reg_vt(array):
                               'beta': reg.beta,
                               'beta_t': reg.beta_t,
                               'r': reg.r,
-                              'last': last_t}), residual
+                              'last_t': last_t}), residual
     else:
         return pandas.Series(numpy.nan, index=['alpha',
                                                'alpha_t',
                                                'beta',
                                                'beta_t',
                                                'r',
-                                               'last']), array
+                                               'last_t']), array
 
 
 def fac_from_vt(array):
@@ -55,20 +55,20 @@ def reg_vv(array1, array2):
         last = reg.y[-1] - reg.x[-1] * reg.beta - reg.alpha
         last_e = ((reg.x[-1] * reg.beta_e)**2 + (reg.alpha_e)**2)**0.5
         last_t = last / last_e
-        residual = array2 - array1 * reg.beta - reg.alpha
+        residual = array1 - array2 * reg.beta - reg.alpha
         return pandas.Series({'alpha': reg.alpha,
                               'alpha_t': reg.alpha_t,
                               'beta': reg.beta,
                               'beta_t': reg.beta_t,
                               'r': reg.r,
-                              'last': last_t}), residual
+                              'last_t': last_t}), residual
     else:
         return pandas.Series(numpy.nan, index=['alpha',
                                                'alpha_t',
                                                'beta',
                                                'beta_t',
                                                'r',
-                                               'last']), array2
+                                               'last_t']), array1
 
 
 def fac_from_vv(array1, array2):

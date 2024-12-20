@@ -1,6 +1,6 @@
 [project]
 name="lzhpy"
-version="1.0.2"
+version="1.0.3"
 authors=[
     { name="zhlei", email="leizuoho@mail.ustc.edu.cn" }
 ]
@@ -18,3 +18,21 @@ dependencies=[
 ]
 description=""
 requires-python=">=3.0"
+
+[build-system]
+requires = [
+    "setuptools",
+    "cython",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+platforms = ["all"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+readme = { file = ["README.md"], content-type = "text/markdown" }
+
+[tool.setuptools.package-data]
+"*" = ["*.pyx", "*.pxd", "*.h", "*.c", "*.hpp", "*.cpp"]

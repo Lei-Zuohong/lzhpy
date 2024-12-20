@@ -1,5 +1,9 @@
 README.md
 pyproject.toml
+setup.py
+src/lzhsta/cregress/ctool.cpp
+src/lzhsta/cregress/cpack/linear.hpp
+src/lzhsta/cregress/cpack/multi.hpp
 src/lzhfile/__init__.py
 src/lzhfile/core.py
 src/lzhfile/filebase.py
@@ -14,6 +18,13 @@ src/lzhfile/types/suffix.py
 src/lzhfile/types/txt.py
 src/lzhlog/__init__.py
 src/lzhlog/ftimer.py
+src/lzhmath/__init__.py
+src/lzhmath/base/__init__.py
+src/lzhmath/base/edouble.py
+src/lzhmath/quant/__init__.py
+src/lzhmath/quant/factor/balance.py
+src/lzhmath/quant/factor/norm.py
+src/lzhmath/quant/factor/reg.py
 src/lzhnet/__init__.py
 src/lzhnet/chrome.py
 src/lzhnet/mail.py
@@ -33,5 +44,13 @@ src/lzhpy.egg-info/top_level.txt
 src/lzhsta/__init__.py
 src/lzhsta/fit.py
 src/lzhsta/para.py
+src/lzhsta/regress.py
+src/lzhsta/cregress/__init__.py
+src/lzhsta/cregress/ctool.cpp
+src/lzhsta/cregress/ctool.pyx
+src/lzhsta/cregress/cpack/algorithm.hpp
+src/lzhsta/cregress/cpack/linear.hpp
+src/lzhsta/cregress/cpack/multi.hpp
+src/lzhsta/cregress/cpack/typedef.hpp
 src/lzhsys/__init__.py
 src/lzhsys/process.py
