@@ -8,67 +8,12 @@ import multiprocessing
 # Private package
 import lzhlog
 # Internal package
+from .cmd import cmd_run
 
 
 ################################################################################
 # 多进程并发
 ################################################################################
-
-
-def cmd_build(cmd,
-              addition=None,
-              nohup=False,
-              background=False,
-              stdout=None,
-              stdout_add=True,
-              stderr=None,
-              stderr_add=True,
-              **argv):
-    '''
-    构建命令行
-        - addition: 附加参数字符串
-        - nohup (bool): 是否使用nohup
-        - background (bool): 是否后台运行
-        - stdout (str): 标准输出文件
-        - stdout_add (bool): 输出文件是否为增加模式
-        - stderr (str): 标准错误文件
-        - stderr_add (bool): 输出文件是否为增加模式
-    '''
-    exe = cmd
-    if (addition is not None):
-        exe += ' ' + addition
-    if (nohup):
-        exe = 'nohup ' + exe
-    if (stdout is not None):
-        if (stdout_add):
-            exe += ' 1>>%s' % (stdout)
-        else:
-            exe += ' 1>%s' % (stdout)
-    if (stderr is not None):
-        if (stderr_add):
-            exe += ' 2>>%s' % (stderr)
-        else:
-            exe += ' 2>%s' % (stderr)
-    if (background):
-        exe += ' &'
-    return exe
-
-
-def cmd_run(cmd,
-            root=None,
-            previous=None,
-            **argv):
-    '''
-    运行命令行
-        - root (str): 更改启动目录
-        - previous (list): 前置命令
-    '''
-    if (root is not None):
-        os.chdir(root)
-    if (previous is not None):
-        for previou in previous:
-            os.system(previou)
-    os.system(cmd_build(cmd, **argv))
 
 
 def error_callback(log, name):
