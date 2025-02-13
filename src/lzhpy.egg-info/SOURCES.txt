@@ -41,6 +41,9 @@ src/lzhpy.egg-info/SOURCES.txt
 src/lzhpy.egg-info/dependency_links.txt
 src/lzhpy.egg-info/requires.txt
 src/lzhpy.egg-info/top_level.txt
+src/lzhsci/__init__.py
+src/lzhsci/ml/__init__.py
+src/lzhsci/ml/grid.py
 src/lzhsta/__init__.py
 src/lzhsta/fit.py
 src/lzhsta/para.py
@@ -53,4 +56,5 @@ src/lzhsta/cregress/cpack/linear.hpp
 src/lzhsta/cregress/cpack/multi.hpp
 src/lzhsta/cregress/cpack/typedef.hpp
 src/lzhsys/__init__.py
+src/lzhsys/cmd.py
 src/lzhsys/process.py

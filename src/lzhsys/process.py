@@ -24,13 +24,20 @@ def error_callback(log, name):
 
 class Pool:
     def __init__(self, nthread, progress=True):
-        self.pool = multiprocessing.Pool(nthread)
-        self.processes = []
-        self.progress = progress
+        if (multiprocessing.current_process().name == 'MainProcess'):
+            self.pool = multiprocessing.Pool(nthread)
+            self.processes = []
+            self.progress = progress
+        else:
+            self.processes = []
+            self.results = []
         self.log = lzhlog.get_class_logger(self)
 
     def apply_async(self, *args, **argv):
-        self.processes.append(self.pool.apply_async(*args, **argv))
+        if (multiprocessing.current_process().name == 'MainProcess'):
+            self.processes.append(self.pool.apply_async(*args, **argv))
+        else:
+            self.processes.append([args, argv])
 
     def apply_asyncs(self, *args, **argv):
         '''
@@ -86,17 +93,25 @@ class Pool:
         self.pool.close()
 
     def join(self):
-        self.close()
-        self.bar = tqdm.tqdm(total=len(self.processes))
-        while (self.bar.n < len(self.processes)):
-            try:
-                self.bar.update(numpy.sum([process.ready() for process in self.processes]) - self.bar.n)
-                time.sleep(1)
-            except KeyboardInterrupt:
-                self.pool.terminate()
-                exit()
-        self.bar.close()
-        self.pool.join()
+        if (multiprocessing.current_process().name == 'MainProcess'):
+            self.close()
+            self.bar = tqdm.tqdm(total=len(self.processes))
+            while (self.bar.n < len(self.processes)):
+                try:
+                    self.bar.update(numpy.sum([process.ready() for process in self.processes]) - self.bar.n)
+                    time.sleep(1)
+                except KeyboardInterrupt:
+                    self.pool.terminate()
+                    exit()
+            self.bar.close()
+            self.pool.join()
+        else:
+            for process in self.processes:
+                self.results.append(process[0][0](*process[1]['args'],
+                                                  **process[1]['kwds']))
 
     def get(self):
-        return [process.get() for process in self.processes]
+        if (multiprocessing.current_process().name == 'MainProcess'):
+            return [process.get() for process in self.processes]
+        else:
+            return self.results

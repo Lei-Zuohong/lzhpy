@@ -15,7 +15,10 @@ class Line:
         self.weights.append(weight)
 
     def __repr__(self):
-        total = os.get_terminal_size().columns
+        try:
+            total = os.get_terminal_size().columns
+        except BaseException:
+            total = 80
         temp_iunits = []
         temp_weight = []
         for iunit, unit in enumerate(self.units):

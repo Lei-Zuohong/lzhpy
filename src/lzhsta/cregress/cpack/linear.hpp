@@ -15,7 +15,6 @@ output id:
 */
 
 double regression_linear_fast(Vdouble x, Vdouble y, int output_id)
-
 {
     // mean
     double xmean = 0;
