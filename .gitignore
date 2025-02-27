@@ -1,2 +1,5 @@
+*.pyc
+*.pyd
 dist
 build
+__pycache__
