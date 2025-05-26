@@ -13,7 +13,7 @@ def fac_from_v(array):
         mean = numpy.mean(y)
         var = numpy.sum((y - numpy.mean(y))**2) / (y.shape[0] - 1)
         skew = numpy.sum((y - numpy.mean(y))**3) / var**1.5 / y.shape[0]
-        kurt = numpy.sum((y - numpy.mean(y))**4) / var**2 / y.shape[0]
+        kurt = numpy.sum((y - numpy.mean(y))**4) / var**2 / y.shape[0] - 3
         return pandas.Series({'mean': mean, 'var': var, 'skew': skew, 'kurt': kurt})
     else:
         return pandas.Series(numpy.nan, index=['mean', 'var', 'skew', 'kurt'])

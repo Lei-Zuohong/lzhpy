@@ -1,9 +1,10 @@
 # -*- coding: UTF-8 -*-
 # Public package
-import os
 import time
 import tqdm
 import numpy
+import psutil
+import billiard
 import multiprocessing
 # Private package
 import lzhlog
@@ -23,18 +24,23 @@ def error_callback(log, name):
 
 
 class Pool:
-    def __init__(self, nthread, progress=True):
-        if (multiprocessing.current_process().name == 'MainProcess'):
-            self.pool = multiprocessing.Pool(nthread)
-            self.processes = []
-            self.progress = progress
+    def __init__(self, nthread, tool='multiprocessing', show_bar=True):
+        if (nthread > 1):
+            match(tool):
+                case('multiprocessing'):
+                    self.pool = multiprocessing.Pool(nthread)
+                case('billiard'):
+                    self.pool = billiard.Pool(nthread)
+            self.is_multi = True
         else:
-            self.processes = []
             self.results = []
+            self.is_multi = False
+        self.processes = []
+        self.show_bar = show_bar
         self.log = lzhlog.get_class_logger(self)
 
     def apply_async(self, *args, **argv):
-        if (multiprocessing.current_process().name == 'MainProcess'):
+        if (self.is_multi):
             self.processes.append(self.pool.apply_async(*args, **argv))
         else:
             self.processes.append([args, argv])
@@ -89,29 +95,33 @@ class Pool:
                                  args=(command,),
                                  kwds=argvs[count])
 
-    def close(self):
-        self.pool.close()
-
     def join(self):
-        if (multiprocessing.current_process().name == 'MainProcess'):
-            self.close()
-            self.bar = tqdm.tqdm(total=len(self.processes))
-            while (self.bar.n < len(self.processes)):
-                try:
-                    self.bar.update(numpy.sum([process.ready() for process in self.processes]) - self.bar.n)
-                    time.sleep(1)
-                except KeyboardInterrupt:
-                    self.pool.terminate()
-                    exit()
-            self.bar.close()
+        if (self.is_multi):
+            self.pool.close()
+            if (self.show_bar):
+                self.bar = tqdm.tqdm(total=len(self.processes))
+                while (self.bar.n < len(self.processes)):
+                    try:
+                        self.bar.update(numpy.sum([process.ready() for process in self.processes]) - self.bar.n)
+                        time.sleep(1)
+                    except KeyboardInterrupt:
+                        self.pool.terminate()
+                        exit()
+                self.bar.close()
             self.pool.join()
         else:
+            if (self.show_bar):
+                self.bar = tqdm.tqdm(total=len(self.processes))
             for process in self.processes:
                 self.results.append(process[0][0](*process[1]['args'],
                                                   **process[1]['kwds']))
+                if (self.show_bar):
+                    self.bar.update(1)
+            if (self.show_bar):
+                self.bar.close()
 
     def get(self):
-        if (multiprocessing.current_process().name == 'MainProcess'):
+        if (self.is_multi):
             return [process.get() for process in self.processes]
         else:
             return self.results
