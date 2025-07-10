@@ -28,12 +28,10 @@ class Pool:
         with self.semaphore:  # 控制并发数量
             try:
                 self.log.debug(f"Starting command: {command}")
-                process = subprocess.Popen(
-                    command,
-                    shell=True,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE
-                )
+                process = subprocess.Popen(command,
+                                           shell=True,
+                                           stdout=subprocess.PIPE,
+                                           stderr=subprocess.PIPE)
                 return process
             except Exception as e:
                 self.log.error(f"Failed to start command: {command}, error: {str(e)}")

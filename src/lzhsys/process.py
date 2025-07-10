@@ -3,7 +3,6 @@
 import time
 import tqdm
 import numpy
-import psutil
 import billiard
 import multiprocessing
 # Private package
