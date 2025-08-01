@@ -1,7 +1,10 @@
 # -*- coding: UTF-8 -*-
 # Public package
+import os
 import re
 import sys
+import shutil
+from compileall import compile_dir
 # Private package
 # Internal package
 
@@ -37,3 +40,18 @@ class Argv:
                 return func(self.argv[key])
         else:
             return value
+
+
+def compile(folder):
+    compile_dir(folder)
+    for root, subdir, files in os.walk(folder):
+        for _file in files:
+            if _file.endswith(".py"):
+                os.remove(os.path.join(root, _file))
+            if _file.endswith(".pyc") and len(_file.split(".")) == 3:
+                _file_tmp = _file.replace("." + _file.split(".")[1], "")
+                shutil.move(
+                    os.path.join(root, _file),
+                    os.path.join(os.path.dirname(root), _file_tmp))
+        if root.endswith("__pycache__"):
+            os.rmdir(root)

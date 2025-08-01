@@ -37,7 +37,7 @@ def datedtoi(date: datetime.date) -> int:
     return datestoi(datedtos(date))
 
 
-def datetod(date: datetime.datetime | datetime.date | str | int) -> datetime.date:
+def datetod(date) -> datetime.date:
     if (isinstance(date, datetime.datetime)):
         return date.date()
     elif (isinstance(date, datetime.date)):
@@ -48,7 +48,7 @@ def datetod(date: datetime.datetime | datetime.date | str | int) -> datetime.dat
         return dateitod(date)
 
 
-def datetos(date: datetime.datetime | datetime.date | str | int) -> str:
+def datetos(date) -> str:
     if (isinstance(date, datetime.datetime)):
         return datedtos(date.date())
     elif (isinstance(date, datetime.date)):
@@ -59,7 +59,7 @@ def datetos(date: datetime.datetime | datetime.date | str | int) -> str:
         return dateitos(date)
 
 
-def datetoi(date: datetime.datetime | datetime.date | str | int) -> int:
+def datetoi(date) -> int:
     if (isinstance(date, datetime.datetime)):
         return datedtoi(date.date())
     elif (isinstance(date, datetime.date)):
