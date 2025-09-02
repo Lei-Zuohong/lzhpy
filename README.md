@@ -4,11 +4,15 @@
 
 # 安装方式
     pip install lzhpy
+    python -m build --wheel
+    python setup.py build_ext --inplace
 
 # 包含组件
     lzhfile
     lzhlog
+    lzhmath
     lzhnet
     lzhprt
-    lzhsta
+    lzhquant
+    lzhsci
     lzhsys

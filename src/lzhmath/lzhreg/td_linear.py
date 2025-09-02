@@ -3,15 +3,16 @@
 import numpy
 # Private package
 # Internal package
-from .utils import *
+from .tools import *
 
 
-def fit(x, y, stable=False):
-    match(stable):
-        case(True):
-            temp_inv = inverse_matrix(x  @ x.T)
-        case(False):
-            temp_inv = numpy.linalg.inv(x  @ x.T)
+def fit(x: numpy.ndarray,
+        y: numpy.ndarray,
+        stable: bool = False) -> FitResult:
+    if (stable):
+        temp_inv = inverse_matrix(x  @ x.T)
+    else:
+        temp_inv = numpy.linalg.inv(x  @ x.T)
     beta = temp_inv @ x @  y
     yp = beta @ x
     eps_yp = yp - yp.mean()
@@ -28,20 +29,28 @@ def fit(x, y, stable=False):
     r2 = ssr / sst
     r = numpy.sqrt(r2)
 
-    return [beta, r,
-            eps_y, eps_yp, eps,
-            sse, ssr, sst,
-            beta_e,
-            beta_t,
-            r2]
+    result = FitResult()
+    result.beta = beta
+    result.beta_e = beta_e
+    result.beta_t = beta_t
+    result.r = r
+    result.r2 = r2
+    result.eps_yp = eps_yp
+    result.eps = eps
+    result.sse = sse
+    result.ssr = ssr
+    result.sst = sst
+    return result
 
 
-def fitw(x, y, w, stable=False):
-    match(stable):
-        case(True):
-            temp_inv = inverse_matrix(x @ numpy.diag(w) @ x.T)
-        case(False):
-            temp_inv = numpy.linalg.inv(x @ numpy.diag(w) @ x.T)
+def fitw(x: numpy.ndarray,
+         y: numpy.ndarray,
+         w: numpy.ndarray,
+         stable: bool = False) -> FitResult:
+    if (stable):
+        temp_inv = inverse_matrix(x @ numpy.diag(w) @ x.T)
+    else:
+        temp_inv = numpy.linalg.inv(x @ numpy.diag(w) @ x.T)
     beta = temp_inv @ x @ numpy.diag(w) @ y
     yp = beta @ x
     eps_yp = yp - (yp * w).sum() / w.sum()
@@ -58,9 +67,15 @@ def fitw(x, y, w, stable=False):
     r2 = ssr / sst
     r = numpy.sqrt(r2)
 
-    return [beta, r,
-            eps_y, eps_yp, eps,
-            sse, ssr, sst,
-            beta_e,
-            beta_t,
-            r2]
+    result = FitResult()
+    result.beta = beta
+    result.beta_e = beta_e
+    result.beta_t = beta_t
+    result.r = r
+    result.r2 = r2
+    result.eps_yp = eps_yp
+    result.eps = eps
+    result.sse = sse
+    result.ssr = ssr
+    result.sst = sst
+    return result

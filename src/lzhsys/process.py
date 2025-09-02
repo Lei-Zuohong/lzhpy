@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 # Public package
+import os
 import time
 import tqdm
 import numpy
@@ -8,7 +9,7 @@ import multiprocessing
 # Private package
 import lzhlog
 # Internal package
-from .cmd import cmd_run
+from .cmd import build, popen
 
 
 ################################################################################
@@ -23,7 +24,7 @@ def error_callback(log, name):
 
 
 class Pool:
-    def __init__(self, nthread, tool='multiprocessing', show_bar=True):
+    def __init__(self, nthread, tool='multiprocessing', show_bar=True, cmd_shell=False):
         if (nthread > 1):
             match(tool):
                 case('multiprocessing'):
@@ -37,6 +38,10 @@ class Pool:
         self.processes = []
         self.show_bar = show_bar
         self.log = lzhlog.get_class_logger(self)
+        if (cmd_shell):
+            self.func_cmd = popen
+        else:
+            self.func_cmd = os.system
 
     def apply_async(self, *args, **argv):
         if (self.is_multi):
@@ -83,16 +88,14 @@ class Pool:
         if (len(args) == 1):
             commands = args[0]
             for command in commands:
-                self.apply_async(cmd_run,
-                                 args=(command,),
-                                 kwds=argv)
+                self.apply_async(self.func_cmd,
+                                 args=(build(command, **argv),))
         elif (len(args) == 2):
             commands = args[0]
             argvs = args[1]
             for count, command in enumerate(commands):
-                self.apply_async(cmd_run,
-                                 args=(command,),
-                                 kwds=argvs[count])
+                self.apply_async(self.func_cmd,
+                                 args=(build(command, **argvs[count]),))
 
     def join(self):
         if (self.is_multi):

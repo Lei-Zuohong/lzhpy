@@ -2,4 +2,7 @@
 # Public package
 # Private package
 # Internal package
-from .edouble import edouble
+from .txt import *
+from .pkl import *
+from .json import *
+from .math import *

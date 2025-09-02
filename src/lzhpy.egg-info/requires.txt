@@ -4,6 +4,7 @@ lmfit
 pillow
 pandas
 xlwings
+billiard
 colorlog
 paramiko
 selenium

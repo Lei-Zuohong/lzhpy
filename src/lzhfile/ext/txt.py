@@ -2,25 +2,17 @@
 # Public package
 # Private package
 # Internal package
-from ..core import *
 
 
 def txt_write(filename, out_string, encoding='utf-8'):
     '输出字符串到txt文件'
-    if (split(filename)[0] != ''):
-        makedirs(split(filename)[0])
     with open(filename, 'w', encoding=encoding) as outfile:
         outfile.write(out_string)
 
 
 def txt_writelines(filename, out_strings, encoding='utf-8'):
     '输出字符串列表到txt文件'
-    if (split(filename)[0] != ''):
-        makedirs(split(filename)[0])
-    output = ''
-    for out_string in out_strings:
-        output += out_string
-        output += '\n'
+    output = '\n'.join(out_strings)
     txt_write(filename, output, encoding=encoding)
 
 

@@ -4,10 +4,12 @@ import numpy
 import lmfit
 # Private package
 # Internal package
-from .utils import *
+from .tools import *
 
 
-def residual(ps, y, x):
+def residual(ps: lmfit.Parameters,
+             y: numpy.ndarray,
+             x: numpy.ndarray) -> numpy.ndarray:
     values = ps.valuesdict()
     output = y.copy()
     for i in range(x.shape[0]):
@@ -15,7 +17,10 @@ def residual(ps, y, x):
     return output
 
 
-def residual_weight(ps, y, x, w):
+def residual_weight(ps: lmfit.Parameters,
+                    y: numpy.ndarray,
+                    x: numpy.ndarray,
+                    w: numpy.ndarray) -> numpy.ndarray:
     values = ps.valuesdict()
     output = y.copy()
     for i in range(x.shape[0]):
@@ -24,7 +29,9 @@ def residual_weight(ps, y, x, w):
     return output
 
 
-def fit(x, y, hint=None):
+def fit(x: numpy.ndarray,
+        y: numpy.ndarray,
+        hint: numpy.ndarray = None) -> FitResult:
     ps = lmfit.Parameters()
     for i in range(x.shape[0]):
         if (hint is not None):
@@ -55,15 +62,24 @@ def fit(x, y, hint=None):
     r2 = ssr / sst
     r = numpy.sqrt(r2)
 
-    return [beta, r,
-            eps_y, eps_yp, eps,
-            sse, ssr, sst,
-            beta_e,
-            beta_t,
-            r2]
+    result = FitResult()
+    result.beta = beta
+    result.beta_e = beta_e
+    result.beta_t = beta_t
+    result.r = r
+    result.r2 = r2
+    result.eps_yp = eps_yp
+    result.eps = eps
+    result.sse = sse
+    result.ssr = ssr
+    result.sst = sst
+    return result
 
 
-def fitw(x, y, w, hint=None):
+def fitw(x: numpy.ndarray,
+         y: numpy.ndarray,
+         w: numpy.ndarray,
+         hint: numpy.ndarray = None) -> FitResult:
     ps = lmfit.Parameters()
     for i in range(x.shape[0]):
         if (hint is not None):
@@ -94,9 +110,15 @@ def fitw(x, y, w, hint=None):
     r2 = ssr / sst
     r = numpy.sqrt(r2)
 
-    return [beta, r,
-            eps_y, eps_yp, eps,
-            sse, ssr, sst,
-            beta_e,
-            beta_t,
-            r2]
+    result = FitResult()
+    result.beta = beta
+    result.beta_e = beta_e
+    result.beta_t = beta_t
+    result.r = r
+    result.r2 = r2
+    result.eps_yp = eps_yp
+    result.eps = eps
+    result.sse = sse
+    result.ssr = ssr
+    result.sst = sst
+    return result

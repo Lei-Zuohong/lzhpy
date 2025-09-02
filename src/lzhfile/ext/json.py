@@ -3,7 +3,6 @@
 import json
 # Private package
 # Internal package
-from ..core import *
 
 
 def json_read(filename):
@@ -13,7 +12,5 @@ def json_read(filename):
 
 
 def json_write(filename, target):
-    if (split(filename)[0] != ''):
-        makedirs(split(filename)[0])
     with open(filename, 'w') as outfile:
         json.dump(target, outfile, indent=4, sort_keys=False)

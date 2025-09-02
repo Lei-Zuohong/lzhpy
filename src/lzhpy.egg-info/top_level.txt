@@ -3,6 +3,6 @@ lzhlog
 lzhmath
 lzhnet
 lzhprt
+lzhquant
 lzhsci
-lzhsta
 lzhsys

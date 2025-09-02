@@ -2,11 +2,30 @@
 # Public package
 import numpy
 import pandas
+from dataclasses import dataclass
 # Private package
 # Internal package
 
 
-def to_ndarray(data):
+@dataclass
+class FitResult:
+    beta: float | numpy.ndarray = None
+    beta_e: float | numpy.ndarray = None
+    beta_t: float | numpy.ndarray = None
+    alpha: float = None
+    alpha_e: float = None
+    alpha_t: float = None
+    r: float = None
+    r2: float = None
+    eps_yp: numpy.ndarray = None
+    eps: numpy.ndarray = None
+    sse: float = None
+    ssr: float = None
+    sst: float = None
+
+
+def to_ndarray(data: list | numpy.ndarray | pandas.Series | pandas.DataFrame) -> numpy.ndarray:
+    '将任何类型一维数据转换为numpy'
     if (isinstance(data, list)):
         return numpy.array(data)
     elif (isinstance(data, numpy.ndarray)):
@@ -16,10 +35,18 @@ def to_ndarray(data):
     elif (isinstance(data, pandas.DataFrame)):
         return data.to_numpy().T
     else:
-        raise ValueError('data type not support')
+        raise ValueError(f'Wrong type of data: {type(data)}')
 
 
-def inverse_matrix(data):
+def inverse_matrix(data: numpy.ndarray) -> numpy.ndarray:
+    '矩阵求逆，允许处理0值'
+    if (data.shape[0] != data.shape[1]):
+        msg = f'''
+        Wrong input matrix shape:
+            - shape[0]: {data.shape[0]}
+            - shape[1]: {data.shape[1]}
+        '''
+        raise ValueError(msg)
     size = data.shape[0]
     array1 = data.copy()
     array2 = numpy.diag(numpy.ones(size))

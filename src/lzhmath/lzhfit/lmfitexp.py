@@ -5,14 +5,10 @@ import numpy
 import pandas
 # Private package
 # Internal package
-from . import para
-
-################################################################################
-# 批注
-################################################################################
+from . import lzhpara
 
 
-def Parameter_to_lmfit(para):
+def Parameter_to_lmfit(para: lzhpara.Parameter) -> lmfit.Parameter:
     p = lmfit.Parameter(para.df['name'])
     p.set(value=para.df['value'],
           vary=para.df['vary'],
@@ -21,25 +17,25 @@ def Parameter_to_lmfit(para):
     return p
 
 
-def Parameters_to_lmfit(paras):
+def Parameters_to_lmfit(paras: lzhpara.Parameters) -> lmfit.Parameters:
     ps = lmfit.Parameters()
     for ip in range(paras.df.shape[0]):
-        ps.add(Parameter_to_lmfit(para.Parameter(paras.df.iloc[ip])))
+        ps.add(Parameter_to_lmfit(lzhpara.Parameter(paras.df.iloc[ip])))
     return ps
 
 
-def lmfit_to_Parameter(p):
-    output = para.Parameter(name=p.name,
-                            value=p.value,
-                            error=p.stderr,
-                            limitl=p.min,
-                            limitr=p.max,
-                            vary=p.vary)
+def lmfit_to_Parameter(p: lmfit.Parameter) -> lzhpara.Parameter:
+    output = lzhpara.Parameter(name=p.name,
+                               value=p.value,
+                               error=p.stderr,
+                               limitl=p.min,
+                               limitr=p.max,
+                               vary=p.vary)
     return output
 
 
-def lmfit_to_Parameters(ps):
-    output = para.Parameters()
+def lmfit_to_Parameters(ps: lmfit.Parameters) -> lzhpara.Parameters:
+    output = lzhpara.Parameters()
     for name in ps:
         output.add_para(lmfit_to_Parameter(ps[name]))
     has_cor = False
@@ -57,13 +53,4 @@ def lmfit_to_Parameters(ps):
                     has_cor = True
     if (has_cor):
         output.set_correlation(temp_cor)
-    return output
-
-
-def do_lmfit(func, paras, *args, show_result=False):
-    ps = Parameters_to_lmfit(paras)
-    result = lmfit.minimize(func, ps, args=args)
-    if (show_result):
-        lmfit.report_fit(result)
-    output = lmfit_to_Parameters(result.params)
     return output

@@ -3,9 +3,11 @@
 import numpy
 # Private package
 # Internal package
+from .tools import *
 
 
-def fit(x, y):
+def fit(x: numpy.ndarray,
+        y: numpy.ndarray) -> FitResult:
     mean_x = x.mean()
     mean_y = y.mean()
     eps_x = x - mean_x
@@ -29,15 +31,26 @@ def fit(x, y):
     alpha_t = alpha / alpha_e
     r2 = ssr / sst
 
-    return [beta, alpha, r,
-            eps_x, eps_y, eps_yp, eps,
-            sse, ssr, sst,
-            beta_e, alpha_e,
-            beta_t, alpha_t,
-            r2]
+    result = FitResult()
+    result.beta = beta
+    result.alpha = alpha
+    result.r = r
+    result.r2 = r2
+    result.eps_yp = eps_yp
+    result.eps = eps
+    result.sse = sse
+    result.ssr = ssr
+    result.sst = sst
+    result.beta_e = beta_e
+    result.beta_t = beta_t
+    result.alpha_e = alpha_e
+    result.alpha_t = alpha_t
+    return result
 
 
-def fitw(x, y, w):
+def fitw(x: numpy.ndarray,
+         y: numpy.ndarray,
+         w: numpy.ndarray) -> FitResult:
     mean_x = (x * w).sum() / w.sum()
     mean_y = (y * w).sum() / w.sum()
     eps_x = x - mean_x
@@ -61,9 +74,18 @@ def fitw(x, y, w):
     alpha_t = alpha / alpha_e
     r2 = ssr / sst
 
-    return [beta, alpha, r,
-            eps_x, eps_y, eps_yp, eps,
-            sse, ssr, sst,
-            beta_e, alpha_e,
-            beta_t, alpha_t,
-            r2]
+    result = FitResult()
+    result.beta = beta
+    result.alpha = alpha
+    result.r = r
+    result.r2 = r2
+    result.eps_yp = eps_yp
+    result.eps = eps
+    result.sse = sse
+    result.ssr = ssr
+    result.sst = sst
+    result.beta_e = beta_e
+    result.beta_t = beta_t
+    result.alpha_e = alpha_e
+    result.alpha_t = alpha_t
+    return result

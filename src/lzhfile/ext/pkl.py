@@ -3,7 +3,6 @@
 import pickle
 # Private package
 # Internal package
-from ..core import *
 
 
 def pkl_read(filename):
@@ -13,7 +12,5 @@ def pkl_read(filename):
 
 
 def pkl_dump(filename, target):
-    if (split(filename)[0] != ''):
-        makedirs(split(filename)[0])
     with open(filename, 'wb') as outfile:
         pickle.dump(target, outfile)
