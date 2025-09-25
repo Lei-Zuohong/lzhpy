@@ -4,10 +4,10 @@ import numpy
 import pandas
 # Private package
 # Internal package
-import lzhsta.regress as regress
+import lzhmath.lzhreg as lzhreg
 
 
-def fac_from_v(array):
+def fac_from_v(array: numpy.ndarray) -> pandas.Series:
     y = array[(~numpy.isnan(array)) & (~numpy.isinf(array))]
     if (y.shape[0] > 1):
         mean = numpy.mean(y)
@@ -19,19 +19,19 @@ def fac_from_v(array):
         return pandas.Series(numpy.nan, index=['mean', 'var', 'skew', 'kurt'])
 
 
-def reg_vt(array):
-    reg = regress.Linear(array, numpy.arange(array.shape[0]))
+def reg_vt(array: numpy.ndarray) -> pandas.Series:
+    reg = lzhreg.Linear(array, numpy.arange(array.shape[0]))
     if (reg.clean()):
         reg.fit()
-        last = reg.y[-1] - reg.x[-1] * reg.beta - reg.alpha
-        last_e = ((reg.x[-1] * reg.beta_e)**2 + (reg.alpha_e)**2)**0.5
+        last = reg.y[-1] - reg.x[-1] * reg.result.beta - reg.result.alpha
+        last_e = ((reg.x[-1] * reg.result.beta_e)**2 + (reg.result.alpha_e)**2)**0.5
         last_t = last / last_e
-        residual = array - numpy.arange(array.shape[0]) * reg.beta - reg.alpha
-        return pandas.Series({'alpha': reg.alpha,
-                              'alpha_t': reg.alpha_t,
-                              'beta': reg.beta,
-                              'beta_t': reg.beta_t,
-                              'r': reg.r,
+        residual = array - numpy.arange(array.shape[0]) * reg.result.beta - reg.result.alpha
+        return pandas.Series({'alpha': reg.result.alpha,
+                              'alpha_t': reg.result.alpha_t,
+                              'beta': reg.result.beta,
+                              'beta_t': reg.result.beta_t,
+                              'r': reg.result.r,
                               'last_t': last_t}), residual
     else:
         return pandas.Series(numpy.nan, index=['alpha',
@@ -42,25 +42,25 @@ def reg_vt(array):
                                                'last_t']), array
 
 
-def fac_from_vt(array):
+def fac_from_vt(array: numpy.ndarray) -> pandas.Series:
     output1, residual = reg_vt(array)
     output2 = fac_from_v(residual)
     return pandas.concat([output1, output2])
 
 
-def reg_vv(array1, array2):
-    reg = regress.Linear(array1, array2)
+def reg_vv(array1: numpy.ndarray, array2: numpy.ndarray) -> pandas.Series:
+    reg = lzhreg.Linear(array1, array2)
     if (reg.clean()):
         reg.fit()
-        last = reg.y[-1] - reg.x[-1] * reg.beta - reg.alpha
-        last_e = ((reg.x[-1] * reg.beta_e)**2 + (reg.alpha_e)**2)**0.5
+        last = reg.y[-1] - reg.x[-1] * reg.result.beta - reg.result.alpha
+        last_e = ((reg.x[-1] * reg.result.beta_e)**2 + (reg.result.alpha_e)**2)**0.5
         last_t = last / last_e
-        residual = array1 - array2 * reg.beta - reg.alpha
-        return pandas.Series({'alpha': reg.alpha,
-                              'alpha_t': reg.alpha_t,
-                              'beta': reg.beta,
-                              'beta_t': reg.beta_t,
-                              'r': reg.r,
+        residual = array1 - array2 * reg.result.beta - reg.result.alpha
+        return pandas.Series({'alpha': reg.result.alpha,
+                              'alpha_t': reg.result.alpha_t,
+                              'beta': reg.result.beta,
+                              'beta_t': reg.result.beta_t,
+                              'r': reg.result.r,
                               'last_t': last_t}), residual
     else:
         return pandas.Series(numpy.nan, index=['alpha',
@@ -71,12 +71,12 @@ def reg_vv(array1, array2):
                                                'last_t']), array1
 
 
-def fac_from_vv(array1, array2):
+def fac_from_vv(array1: numpy.ndarray, array2: numpy.ndarray) -> pandas.Series:
     output1, residual = reg_vv(array1, array2)
     output2 = fac_from_v(residual)
     return pandas.concat([output1, output2])
 
 
-def fac_from_vvt(array1, array2):
+def fac_from_vvt(array1: numpy.ndarray, array2: numpy.ndarray) -> pandas.Series:
     _, residual = reg_vv(array1, array2)
     return fac_from_vt(residual)
